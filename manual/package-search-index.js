@@ -1,1 +1,0 @@
-packageSearchIndex = [{"l":"kon.lib.coord"},{"l":"kon.lib.debug"},{"l":"すべてのパッケージ","url":"allpackages-index.html"}]
