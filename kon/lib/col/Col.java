@@ -1,9 +1,9 @@
 /**
- * CoordDouble
- * 座標データ等諸々を管理するデータ用のクラス
+ * 列のデータを管理するためのクラス
+ * @author kon
+ * @version 2.0
  *
  */
-//
 package kon.lib.col;
 //
 import kon.lib.coord.*;
@@ -16,15 +16,17 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import kon.lib.coord.*;
 //
-public class ColString extends Coord{
+public class Col extends kon.lib.coord.Coord{
     public ArrayList<String> coords;
-    public ColString(String file_name, int col_num){
+    public Col(String file_name, int col_num){
         super(file_name, col_num);
     }
 
     @Override
+    /**
+     * {@inheritDoc}
+     */
     public void readData(String delimiter){
         try{
             File file = new File(this.file_name);
@@ -47,6 +49,9 @@ public class ColString extends Coord{
     }
 
     @Override
+    /**
+     * {@inheritDoc}
+     */
     public void show(){
         for(String coord:this.coords){
             System.out.println(coord);
@@ -54,6 +59,9 @@ public class ColString extends Coord{
     }
 
     @Override
+    /**
+     * {@inheritDoc}
+     */
     public void write(String write_file_name, boolean reverse){
         try{
             FileWriter writer = new FileWriter(write_file_name);

@@ -15,7 +15,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 //
-abstract class Coord{
+public abstract class Coord{
     public String file_name;
     public int col_num;
     public int[] col_nums;
