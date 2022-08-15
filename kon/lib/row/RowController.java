@@ -52,8 +52,9 @@ public class RowController{
             pwriter.println(csv_path2+"のみ保有している属性");
             pwriter.println(sb2);
             pwriter.print("\n");
-            pwriter.println("どちらも保有していない属性");
+            pwriter.println("どちらも保有している属性");
             pwriter.println(sb3);
+            pwriter.close();
         }catch(IOException e){
             System.out.println("ファイル書き込みに失敗しました。(´･ω･`)");
             e.printStackTrace();
@@ -73,8 +74,8 @@ public class RowController{
         int result_num;
         Row row1 = new Row(csv_path1, 0);
         Row row2 = new Row(csv_path2, 0);
-        row1.readData(" ");
-        row2.readData(" ");
+        row1.readData(",");
+        row2.readData(",");
         for(String header:row1.coords){
             result_num = 1;
             for(String i:row2.coords){
@@ -86,14 +87,14 @@ public class RowController{
             result.put(header, result_num);
         }
         for(String header:row2.coords){
-            result_num = 1;
+            result_num = 2;
             for(String i:row1.coords){
                 if(header.equals(i)){
                     result_num = 0;
                     break;
                 }
             }
-            if(result_num == 1){
+            if(result_num == 2){
                 result.put(header, result_num);
             }
         }

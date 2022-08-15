@@ -1,12 +1,20 @@
 #!/bin/zsh
-src_path[1]="Main.java"
-src_path+="kon/lib/coord/*.java"
-src_path+="kon/lib/col/*.java"
-src_path+="kon/lib/debug/*.java"
+src_path[1]="./kon/lib/coord"
+src_path+="./kon/lib/col"
+src_path+="./kon/lib/debug"
 
 space=" "
-str="javac "
+str="javac"
 
-for i in $src_path;do
-    $str$i
+#mainのコンパイル
+set -x
+javac ./Main.java
+
+#main以外のコンパイル
+for dir in $src_path;do
+    for f in $(find $dir -type f | grep .java);do
+        javac $f
+    done
 done
+set +x
+echo "終わりましたよ🥺"
