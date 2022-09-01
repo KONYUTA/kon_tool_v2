@@ -1,4 +1,5 @@
 package kon.lib.col;
+import kon.lib.table.*;
 import kon.lib.debug.*;
 import java.io.File;
 import java.io.IOException;
@@ -8,6 +9,7 @@ import java.io.PrintWriter;
 import java.io.BufferedWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 /**
  * 列データに対する操作
  * @author kon
@@ -64,5 +66,38 @@ public class ColController{
             e.printStackTrace();
         }
         return true;
+    }
+    /**
+     * 「対応表による変換(1列)」ボタンが発火した時に実行される。指定されたファイルの指定された列に対して、対応表による変換を行う
+     * @param input_file 対象のコンテクスト表のファイル
+     * @param correspendence_file 対応表のファイル
+     * @param col_number コンテクスト表の列番号
+     * @param result_file 出力先のパス
+     */
+    public static boolean translate(String input_file, String correspendence_file, int col_number, String result_file){
+        Col col = new Col(input_file, col_number);
+        Table table = new Table(correspendence_file);
+        col.readData(",");
+        table.readData("\t");
+        Col result = correspendence(col, table);
+        result.write(result_file, false);
+        return true;
+    }
+    /**
+     * 対応づけする
+     * @param col コンテクスト表の列データ
+     * @param table 対応表データ
+     * @@return 変換後の列データ
+     * */
+    static Col correspendence(Col col, Table table){
+        Col result = new Col("", 0);
+        for(String i:col.coords){
+            for(HashMap.Entry<String, String> map:table.coords.entrySet()){
+                if(i.equals(map.getKey())){
+                    result.coords.add(map.getValue());
+                }
+            }
+        }
+        return result;
     }
 } 

@@ -2,7 +2,6 @@ import kon.lib.coord.*;
 import kon.lib.col.*;
 import kon.lib.row.*;
 import kon.lib.debug.*;
-import mains.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -11,6 +10,7 @@ import java.io.File;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.IOException;
+import java.util.Date;
 /**
  * メインのプログラムです。
  * @author kon
@@ -45,6 +45,7 @@ import java.io.IOException;
          btns.add(new JButton("周辺地物の有無"));
          btns.add(new JButton("列データの結合"));
          btns.add(new JButton("属性の比較"));
+         btns.add(new JButton("対応表による変換(1列)"));
          for(JButton btn:btns){
              btn.addActionListener(this);
              p.add(btn);
@@ -66,8 +67,10 @@ import java.io.IOException;
          String[] params = new String[1];
          String write_file_path;
          JLabel label;
+         JLabel input_form;
          JFileChooser filechooser = new JFileChooser();
          int selected;
+         int col_num;
 
          switch(cmdName){
              case "周辺地物の有無":
@@ -78,9 +81,9 @@ import java.io.IOException;
                  filechooser.setDialogTitle("対照地物のデータを選択してください");
                  selected = filechooser.showOpenDialog(this);
                  File point_file= filechooser.getSelectedFile();
-                 int[] col_num = {4,5};
+                 int[] col_nums = {4,5};
                  write_file_path="data/result/searchFeature/result.txt";
-                 CoordController.searchFeature(jiko_file.getPath(), point_file.getPath(), write_file_path, 1000d, col_num, col_num);
+                 CoordController.searchFeature(jiko_file.getPath(), point_file.getPath(), write_file_path, 1000d, col_nums, col_nums);
                  label = new JLabel("下記ファイルに保存しました(´･ω･`)\n"+write_file_path);
                  break;
 
@@ -94,7 +97,7 @@ import java.io.IOException;
                  label = new JLabel("下記ファイルに保存しましたよ(´･ω･`)\n"+write_file_path);
                  break;
             case "属性の比較":
-                 write_file_path = "data/result/others/attributeDiff";
+                 write_file_path = "data/result/others/attributeDiff"+new Date().toString();
                  filechooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
                  filechooser.setDialogTitle("一つ目のコンテクスト表を選択してください");
                  selected = filechooser.showOpenDialog(this);
@@ -105,7 +108,22 @@ import java.io.IOException;
                  RowController.headerDiff(context1.getPath(), context2.getPath(), write_file_path);
                  label = new JLabel("下記ファイルに保存しました(´･ω･`)\n"+write_file_path);
                  break;
-
+            case "対応表による変換(1列)":
+                 write_file_path = "data/result/translate/correspendence.txt";
+                 filechooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+                 filechooser.setDialogTitle("元データのファイルを選択してください");
+                 selected = filechooser.showOpenDialog(this);
+                 File context = filechooser.getSelectedFile();
+                 col_num = Integer.parseInt(JOptionPane.showInputDialog(this, "列番号(0始まりで半角数字)"));
+                 filechooser.setDialogTitle("対応表のファイルを選択してください");
+                 selected = filechooser.showOpenDialog(this);
+                 File correspendence = filechooser.getSelectedFile();
+                 if(ColController.translate(context.getPath(), correspendence.getPath(), col_num, write_file_path)){
+                     label = new JLabel("下記ファイルに保存しましたよ(´･ω･`)\n"+write_file_path);
+                 }else{
+                     label = new JLabel("以上終了だよ(´･ω･`)");
+                 }
+                     break;
             case "マニュアル":
                  try{
                      ProcessBuilder psbuilder = new ProcessBuilder("open", "./readme.md");

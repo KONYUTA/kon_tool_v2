@@ -2,6 +2,7 @@ package kon.lib.row;
 //
 import kon.lib.debug.*;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.HashMap;
 import java.util.Map;
 import java.lang.StringBuilder;
@@ -22,7 +23,7 @@ public class RowController{
      * @param result_path 結果を保存するファイルのパス
      */
     public static boolean headerDiff(String csv_path1, String csv_path2, String result_path){
-        HashMap<String, Integer> diff = colomnDiff(csv_path1, csv_path2);
+        LinkedHashMap<String, Integer> diff = colomnDiff(csv_path1, csv_path2);
         StringBuilder sb1 = new StringBuilder();
         StringBuilder sb2 = new StringBuilder();
         StringBuilder sb3 = new StringBuilder();
@@ -69,8 +70,8 @@ public class RowController{
      * @param csv_path2 二つ目のコンマ区切りデータのファイルパス
      * @return HashMapで返す。カラム名をキーとし、バリューが1なら一つ目の表にしかない。2なら二つ目の表にしかない。3ならどちらにも存在する
      */
-    public static HashMap<String, Integer> colomnDiff(String csv_path1, String csv_path2){
-        HashMap<String, Integer> result = new HashMap<>();
+    public static LinkedHashMap<String, Integer> colomnDiff(String csv_path1, String csv_path2){
+        LinkedHashMap<String, Integer> result = new LinkedHashMap<>();
         int result_num;
         Row row1 = new Row(csv_path1, 0);
         Row row2 = new Row(csv_path2, 0);
