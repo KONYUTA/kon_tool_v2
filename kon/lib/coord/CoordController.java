@@ -12,8 +12,8 @@ import java.io.BufferedWriter;
  */
 public class CoordController{
     /**
-     * ボタン「対照地物の有無」が発火した時に実行される
-     * 各事故発生地点周辺の地物の存在を調査し、ファイル出力する。
+     * ボタン「周辺地物の有無」が発火した時に実行される
+     * 各事故現場地点周辺の地物の存在を調査し、ファイル出力する。
      * @param jiko_file 事故データのファイルパス
      * @param point_file 対照地物のデータのファイルパス
      * @param save_file_path 保存用のファイルのパス
