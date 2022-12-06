@@ -40,7 +40,7 @@ public class CoordDouble extends Coord{
             this.coords = new ArrayList<double[]>();
 
             while((data = bufferedReader.readLine()) != null){
-                String[] nums = data.split(" ");
+                String[] nums = data.split(delimiter);
                 double[] coord = new double[2];
                 for(int i=0; i<coord.length; i++){ 
                     try{
