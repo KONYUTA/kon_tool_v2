@@ -48,6 +48,7 @@ public class Main extends JFrame implements ActionListener{
         btns.add(new JButton("属性の比較"));
         btns.add(new JButton("対応表による変換(1列)"));
         btns.add(new JButton("座標データの60進数への変換"));
+        btns.add(new JButton("道路幅員"));
         for(JButton btn:btns){
             btn.addActionListener(this);
             p.add(btn);
@@ -86,7 +87,7 @@ public class Main extends JFrame implements ActionListener{
                 File point_file= filechooser.getSelectedFile();
                 int[] col_nums = {4,5};
                 write_file_path="data/result/searchFeature/result.txt";
-                CoordController.searchFeature(jiko_file.getPath(), point_file.getPath(), write_file_path, 500, col_nums, col_nums);
+                CoordController.searchFeature(jiko_file.getPath(), point_file.getPath(), write_file_path, 10, col_nums, col_nums);
                 label = new JLabel("下記ファイルに保存しました(´･ω･`)\n"+write_file_path);
                 break;
 
@@ -135,6 +136,15 @@ public class Main extends JFrame implements ActionListener{
                 context = filechooser.getSelectedFile();
                 ToInFile.translate(context.getPath(), output_file);
                 label = new JLabel("下記ファイルに保存しましたよ(´･ω･`)\n"+output_file);
+                break;
+            case "道路幅員":
+                String save_file_path = "data/result/color/result.txt";
+                filechooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+                filechooser.setDialogTitle("bgrのカラーコードのファイルのパスを選択してください");
+                selected = filechooser.showOpenDialog(this);
+                context = filechooser.getSelectedFile();
+                CoordController.roadColor(context.getPath(), save_file_path);
+                label = new JLabel("下記ファイルに保存しましたよ(´･ω･`)\n"+save_file_path);
                 break;
             case "マニュアル":
                 try{
