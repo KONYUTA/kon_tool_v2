@@ -93,6 +93,66 @@ public class CoordController{
             printwriter.close();
         }catch(IOException e){System.out.println("ファイル書き込みに失敗しました。");}
     }
+    /**
+     * 色分けする関数を呼び出すやつ。
+     * 凡例に基づいて呼び出す関数を変更する必要あり。
+     * @param colorcode_file bgrのカラーコードのファイルのパス(コンマ区切りテキスト)
+     * @param save_file_path 結果を保存するファイルのパス
+     */
+    public static void crossColor(String colorcode_file, String save_file_path){
+        int[] col_nums = {0,1,2};
+        Coord3 color = new Coord3(colorcode_file, col_nums);
+        color.readData(",");
+        int[] result = CoordController.colorCross(color);
+        try{
+            FileWriter filewriter = new FileWriter(save_file_path);
+            PrintWriter printwriter = new PrintWriter(new BufferedWriter(filewriter));
+            for(int i:result){
+                printwriter.println(i);
+            }
+            printwriter.close();
+        }catch(IOException e){System.out.println("ファイル書き込みに失敗しました。");}
+    }
+    /**
+     * 色分けする関数を呼び出すやつ。
+     * 凡例に基づいて呼び出す関数を変更する必要あり。
+     * @param colorcode_file bgrのカラーコードのファイルのパス(コンマ区切りテキスト)
+     * @param save_file_path 結果を保存するファイルのパス
+     */
+    public static void bunritaiColor(String colorcode_file, String save_file_path){
+        int[] col_nums = {0,1,2};
+        Coord3 color = new Coord3(colorcode_file, col_nums);
+        color.readData(",");
+        int[] result = CoordController.colorBunritai(color);
+        try{
+            FileWriter filewriter = new FileWriter(save_file_path);
+            PrintWriter printwriter = new PrintWriter(new BufferedWriter(filewriter));
+            for(int i:result){
+                printwriter.println(i);
+            }
+            printwriter.close();
+        }catch(IOException e){System.out.println("ファイル書き込みに失敗しました。");}
+    }
+    /**
+     * 色分けする関数を呼び出すやつ。
+     * 凡例に基づいて呼び出す関数を変更する必要あり。
+     * @param colorcode_file bgrのカラーコードのファイルのパス(コンマ区切りテキスト)
+     * @param save_file_path 結果を保存するファイルのパス
+     */
+    public static void hodouColor(String colorcode_file, String save_file_path){
+        int[] col_nums = {0,1,2};
+        Coord3 color = new Coord3(colorcode_file, col_nums);
+        color.readData(",");
+        int[] result = colorHodou(color);
+        try{
+            FileWriter filewriter = new FileWriter(save_file_path);
+            PrintWriter printwriter = new PrintWriter(new BufferedWriter(filewriter));
+            for(int i:result){
+                printwriter.println(i);
+            }
+            printwriter.close();
+        }catch(IOException e){System.out.println("ファイル書き込みに失敗しました。");}
+    }
 
     /**
      * 色分けする関数。
@@ -121,25 +181,84 @@ public class CoordController{
             blue = bgr[0];
             green = bgr[1];
             red = bgr[2];
-            if(blue<100 && green<100 && red<100){
+            if(blue<10 && green<10 && red<10){
                 result[i] = 4;
-            }else if(green>(blue+red)*0.6){
+            //}else if(green>(blue+red)*0.6){
+            }else if(green>blue*1.2 && green>red*1.2){
                 result[i] = 2;
             }else if(blue<100 && green<100 && red>150){
                 result[i] = 1;
             }else if(blue>200 && green<150 && red<150){
                 result[i] = 3;
-            }else if(blue>red && blue>green){
-                result[i] = 3;
-            }else if(green>red && green>blue){
-                result[i] = 2;
-            }else if(red>blue && red>green){
-                result[i] = 1;
+            //}else if(blue>red && blue>green){
+            //    result[i] = 3;
+            //}else if(green>red && green>blue){
+            //    result[i] = 2;
+            //}else if(red>blue && red>green){
+            //    result[i] = 1;
+            }else{
+                result[i] = 0;
             }
-
-
-
-
+        }
+        return result;
+    }
+    /**
+     * 色分けする関数。
+     * @param color bgrのデータ
+     */
+    public static int[] colorCross(Coord3 color){
+        int[] result = new int[color.coords.size()];
+        double blue, green, red;
+        for(int i=0; i<result.length; i++){
+            double[] bgr = color.coords.get(i);
+            blue = bgr[0];
+            green = bgr[1];
+            red = bgr[2];
+            if(red>blue*1.1 && red>green*1.1){
+                result[i] = 1;
+            }else{
+                result[i] = 0;
+            }
+        }
+        return result;
+    }
+    /**
+     * 色分けする関数。
+     * @param color bgrのデータ
+     */
+    public static int[] colorBunritai(Coord3 color){
+        int[] result = new int[color.coords.size()];
+        double blue, green, red;
+        for(int i=0; i<result.length; i++){
+            double[] bgr = color.coords.get(i);
+            blue = bgr[0];
+            green = bgr[1];
+            red = bgr[2];
+            if(blue>red*3 && blue>green*3){
+                result[i] = 1;
+            }else{
+                result[i] = 0;
+            }
+        }
+        return result;
+    }
+    /**
+     * 色分けする関数。
+     * @param color bgrのデータ
+     */
+    private static int[] colorHodou(Coord3 color){
+        int[] result = new int[color.coords.size()];
+        double blue, green, red;
+        for(int i=0; i<result.length; i++){
+            double[] bgr = color.coords.get(i);
+            blue = bgr[0];
+            green = bgr[1];
+            red = bgr[2];
+            if(blue<=254 && green<=254 && red<=254){
+                result[i] = 1;
+            }else{
+                result[i] = 0;
+            }
         }
         return result;
     }
