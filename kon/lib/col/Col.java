@@ -21,6 +21,7 @@ public class Col extends kon.lib.coord.Coord{
     public ArrayList<String> coords;
     public Col(String file_name, int col_num){
         super(file_name, col_num);
+        this.coords = new ArrayList<String>();
     }
 
     @Override

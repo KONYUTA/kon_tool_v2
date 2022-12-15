@@ -100,4 +100,29 @@ public class ColController{
         }
         return result;
     }
+
+    public static boolean route2linear(String input_file, String linear_path, String output_file){
+        Col col = new Col(input_file, 0);
+        Col linear = new Col(linear_path, 0);
+        Col result = new Col("", 0);
+        col.readData(",");
+        linear.readData(",");
+        String route;
+        for(String i:col.coords){
+            System.out.println("test");
+            System.out.println(i);
+            route = "-1";
+            if(i.equals("0")){
+                result.coords.add("0");
+            } else{
+                try{
+                    result.coords.add(linear.coords.get(Integer.parseInt(i)));
+                }catch(NumberFormatException e){
+                    result.coords.add("-1");
+                }
+            }
+        }
+        result.write(output_file, false);
+        return true;
+    }
 } 

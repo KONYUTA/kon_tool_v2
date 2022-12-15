@@ -49,6 +49,11 @@ public class Main extends JFrame implements ActionListener{
         btns.add(new JButton("対応表による変換(1列)"));
         btns.add(new JButton("座標データの60進数への変換"));
         btns.add(new JButton("道路幅員"));
+        btns.add(new JButton("交差点"));
+        btns.add(new JButton("中央分離帯"));
+        //btns.add(new JButton("歩道"));
+        btns.add(new JButton("同一地点での事故の検索"));
+        btns.add(new JButton("近くの人身事故の道路線形"));
         for(JButton btn:btns){
             btn.addActionListener(this);
             p.add(btn);
@@ -129,22 +134,74 @@ public class Main extends JFrame implements ActionListener{
                 }
                 break;
             case "座標データの60進数への変換":
-                String output_file = "data/result/60/result.in";
+                write_file_path = "data/result/60/result.in";
                 filechooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
                 filechooser.setDialogTitle("10進数座標データのファイルを選択してください。");
                 selected = filechooser.showOpenDialog(this);
                 context = filechooser.getSelectedFile();
-                ToInFile.translate(context.getPath(), output_file);
-                label = new JLabel("下記ファイルに保存しましたよ(´･ω･`)\n"+output_file);
+                ToInFile.translate(context.getPath(), write_file_path);
+                label = new JLabel("下記ファイルに保存しましたよ(´･ω･`)\n"+write_file_path);
                 break;
             case "道路幅員":
-                String save_file_path = "data/result/color/result.txt";
+                write_file_path = "data/result/color/result.txt";
                 filechooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
                 filechooser.setDialogTitle("bgrのカラーコードのファイルのパスを選択してください");
                 selected = filechooser.showOpenDialog(this);
                 context = filechooser.getSelectedFile();
-                CoordController.roadColor(context.getPath(), save_file_path);
-                label = new JLabel("下記ファイルに保存しましたよ(´･ω･`)\n"+save_file_path);
+                CoordController.roadColor(context.getPath(), write_file_path);
+                label = new JLabel("下記ファイルに保存しましたよ(´･ω･`)\n"+write_file_path);
+                break;
+            case "交差点":
+                write_file_path = "data/result/color/result.txt";
+                filechooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+                filechooser.setDialogTitle("bgrのカラーコードのファイルのパスを選択してください");
+                selected = filechooser.showOpenDialog(this);
+                context = filechooser.getSelectedFile();
+                CoordController.crossColor(context.getPath(), write_file_path);
+                label = new JLabel("下記ファイルに保存しましたよ(´･ω･`)\n"+write_file_path);
+                break;
+            case "中央分離帯":
+                write_file_path = "data/result/color/result.txt";
+                filechooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+                filechooser.setDialogTitle("bgrのカラーコードのファイルのパスを選択してください");
+                selected = filechooser.showOpenDialog(this);
+                context = filechooser.getSelectedFile();
+                CoordController.bunritaiColor(context.getPath(), write_file_path);
+                label = new JLabel("下記ファイルに保存しましたよ(´･ω･`)\n"+write_file_path);
+                break;
+            case "歩道":
+                write_file_path = "data/result/color/result.txt";
+                filechooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+                filechooser.setDialogTitle("bgrのカラーコードのファイルのパスを選択してください");
+                selected = filechooser.showOpenDialog(this);
+                context = filechooser.getSelectedFile();
+                CoordController.hodouColor(context.getPath(), write_file_path);
+                label = new JLabel("下記ファイルに保存しましたよ(´･ω･`)\n"+write_file_path);
+                break;
+            case "同一地点での事故の検索":
+                filechooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+                filechooser.setDialogTitle("事故座標データを選択してください。");
+                selected = filechooser.showOpenDialog(this);
+                File jiko_file1 = filechooser.getSelectedFile();
+                filechooser.setDialogTitle("対照地物のデータを選択してください");
+                selected = filechooser.showOpenDialog(this);
+                File jiko_file2 = filechooser.getSelectedFile();
+                int[] col_nums2 = {0,1,2};
+                write_file_path="data/result/searchFeature/result.txt";
+                CoordController.nearbyAccident(jiko_file1.getPath(), jiko_file2.getPath(), write_file_path, 200, col_nums2, col_nums2);
+                label = new JLabel("下記ファイルに保存しました(´･ω･`)\n"+write_file_path);
+                break;
+            case "近くの人身事故の道路線形":
+                filechooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+                filechooser.setDialogTitle("事故座標データを選択してください。");
+                selected = filechooser.showOpenDialog(this);
+                File nearby_jinshixn = filechooser.getSelectedFile();
+                filechooser.setDialogTitle("対照地物のデータを選択してください");
+                selected = filechooser.showOpenDialog(this);
+                File jinshixn_linear = filechooser.getSelectedFile();
+                write_file_path="data/result/searchFeature/result.txt";
+                ColController.route2linear(nearby_jinshixn.getPath(), jinshixn_linear.getPath(), write_file_path);
+                label = new JLabel("下記ファイルに保存しました(´･ω･`)\n"+write_file_path);
                 break;
             case "マニュアル":
                 try{
