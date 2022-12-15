@@ -1,5 +1,6 @@
 package kon.lib.coord;
 import kon.lib.debug.*;
+import kon.lib.col.*;
 import java.io.File;
 import java.io.IOException;
 import java.io.FileWriter;
@@ -11,6 +12,37 @@ import java.io.BufferedWriter;
  * @version 2.0
  */
 public class CoordController{
+    /**
+     * ボタン「同一地点での事故検索」が発火した際に実行される。第一引数のファイル内の各事故の座標と路線をもとに、同じ路線の周辺一定範囲で発生した事故を第二引数のファイル内の事故から検索し、最初にヒットしたものをリストとして返す。
+     * @param file1 各事故の座標と路線が記録されたファイルパス
+     * @param file2 検索対照の座標と路線が記録されたファイルパス
+     * @param save_file_path 保存するファイルのパス
+     * @param radius 検索する範囲
+     * @param col_nums1 file1内で座標と路線が記録された列番号[x, y, 路線]
+     * @param col_nums2 file2内で座標と路線が記録された列番号[x, y, 路線]
+     */
+    public static void nearbyAccident(String file1, String file2, String save_file_path, double radius, int[] col_nums1, int[] col_nums2){
+        int[]col_coord_1 = {col_nums1[0], col_nums1[1]};
+        int[]col_coord_2 = {col_nums2[0], col_nums2[1]};
+        CoordDouble jiko1 = new CoordDouble(file1, col_coord_1);
+        CoordDouble jiko2 = new CoordDouble(file2, col_coord_2);
+        jiko1.readData(",");
+        jiko2.readData(",");
+        Col rosexn1 = new Col(file1, col_nums1[2]);
+        Col rosexn2 = new Col(file2, col_nums2[2]);
+        rosexn1.readData(",");
+        rosexn2.readData(",");
+        int[] result = search_with_rosexn(jiko1, jiko2, rosexn1, rosexn2, radius);
+        try{
+            FileWriter filewriter = new FileWriter(save_file_path);
+            PrintWriter printwriter = new PrintWriter(new BufferedWriter(filewriter));
+            printwriter.println("同じ路線での周囲の人身事故");
+            for(int i:result){
+                printwriter.println(i);
+            }
+            printwriter.close();
+        }catch(IOException e){System.out.println("ファイル書き込みに失敗しました");}
+    }
     /**
      * ボタン「周辺地物の有無」が発火した時に実行される
      * 各事故現場地点周辺の地物の存在を調査し、ファイル出力する。
@@ -53,6 +85,36 @@ public class CoordController{
             for(double[] xy_in:point.coords){
                 if(isInCircle(xy, xy_in, radius)){
                     result[i] = true;
+                    break;
+                }
+            }
+        }
+        return result;
+    }
+    /**
+     * 事故発生地点の周辺で同一路線の事故が存在するかどうかを調べる
+     * @param jiko 事故地点の座標データ単位はメートル)
+     * @param point 対象の地物の座標データ(単位はメートル)
+     * @param radius 調査する範囲の半径(単位はメートル)
+     * @return 各座標周辺の地物の有無を二値で表したboolean配列
+     */
+    private static int[] search_with_rosexn(CoordDouble jiko, CoordDouble point, Col rosexn1, Col rosexn2, double radius){
+        int[] result = new int[jiko.coords.size()];
+        double[] xy;
+        double[] xy_in;
+        for(int i=0; i<result.length; i++){
+            result[i] = 0;
+            xy = jiko.coords.get(i);
+            for(int j=1; j<rosexn2.coords.size(); j++){
+                xy_in = point.coords.get(j);
+//                if(isInCircle(xy, xy_in, radius)){
+//                    if(rosexn1.coords.get(i).equals(rosexn2.coords.get(j))){
+//                        System.out.println("j");
+//                    }
+//                }
+                if(isInCircle(xy, xy_in, radius) && rosexn1.coords.get(i).equals(rosexn2.coords.get(j))){
+                    result[i] = j;
+                    System.out.println(j);
                     break;
                 }
             }
