@@ -91,13 +91,13 @@ public class Main extends JFrame implements ActionListener{
                 selected = filechooser.showOpenDialog(this);
                 File point_file= filechooser.getSelectedFile();
                 int[] col_nums = {4,5};
-                write_file_path="data/result/searchFeature/result.txt";
-                CoordController.searchFeature(jiko_file.getPath(), point_file.getPath(), write_file_path, 10, col_nums, col_nums);
+                write_file_path="../data/result/searchFeature/result.txt";
+                CoordController.searchFeature(jiko_file.getPath(), point_file.getPath(), write_file_path, 50, col_nums, col_nums);
                 label = new JLabel("下記ファイルに保存しました(´･ω･`)\n"+write_file_path);
                 break;
 
             case "列データの結合":
-                write_file_path = "data/result/makeCSV/result.txt";
+                write_file_path = "../data/result/makeCSV/result.txt";
                 filechooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
                 filechooser.setDialogTitle("対象列データ群が保存されたフォルダを選択してください。(´･ω･`)");
                 selected = filechooser.showOpenDialog(this);
@@ -106,7 +106,7 @@ public class Main extends JFrame implements ActionListener{
                 label = new JLabel("下記ファイルに保存しましたよ(´･ω･`)\n"+write_file_path);
                 break;
             case "属性の比較":
-                write_file_path = "data/result/others/attributeDiff"+new Date().toString();
+                write_file_path = "../data/result/others/attributeDiff"+new Date().toString();
                 filechooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
                 filechooser.setDialogTitle("一つ目のコンテクスト表を選択してください");
                 selected = filechooser.showOpenDialog(this);
@@ -118,7 +118,7 @@ public class Main extends JFrame implements ActionListener{
                 label = new JLabel("下記ファイルに保存しました(´･ω･`)\n"+write_file_path);
                 break;
             case "対応表による変換(1列)":
-                write_file_path = "data/result/translate/correspendence.txt";
+                write_file_path = "../data/result/translate/correspendence.txt";
                 filechooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
                 filechooser.setDialogTitle("元データのファイルを選択してください");
                 selected = filechooser.showOpenDialog(this);
@@ -134,7 +134,7 @@ public class Main extends JFrame implements ActionListener{
                 }
                 break;
             case "座標データの60進数への変換":
-                write_file_path = "data/result/60/result.in";
+                write_file_path = "../data/result/60/result.in";
                 filechooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
                 filechooser.setDialogTitle("10進数座標データのファイルを選択してください。");
                 selected = filechooser.showOpenDialog(this);
@@ -143,7 +143,7 @@ public class Main extends JFrame implements ActionListener{
                 label = new JLabel("下記ファイルに保存しましたよ(´･ω･`)\n"+write_file_path);
                 break;
             case "道路幅員":
-                write_file_path = "data/result/color/result.txt";
+                write_file_path = "../data/result/color/result.txt";
                 filechooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
                 filechooser.setDialogTitle("bgrのカラーコードのファイルのパスを選択してください");
                 selected = filechooser.showOpenDialog(this);
@@ -152,7 +152,7 @@ public class Main extends JFrame implements ActionListener{
                 label = new JLabel("下記ファイルに保存しましたよ(´･ω･`)\n"+write_file_path);
                 break;
             case "交差点":
-                write_file_path = "data/result/color/result.txt";
+                write_file_path = "../data/result/color/result.txt";
                 filechooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
                 filechooser.setDialogTitle("bgrのカラーコードのファイルのパスを選択してください");
                 selected = filechooser.showOpenDialog(this);
@@ -161,7 +161,7 @@ public class Main extends JFrame implements ActionListener{
                 label = new JLabel("下記ファイルに保存しましたよ(´･ω･`)\n"+write_file_path);
                 break;
             case "中央分離帯":
-                write_file_path = "data/result/color/result.txt";
+                write_file_path = "../data/result/color/result.txt";
                 filechooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
                 filechooser.setDialogTitle("bgrのカラーコードのファイルのパスを選択してください");
                 selected = filechooser.showOpenDialog(this);
@@ -170,7 +170,7 @@ public class Main extends JFrame implements ActionListener{
                 label = new JLabel("下記ファイルに保存しましたよ(´･ω･`)\n"+write_file_path);
                 break;
             case "歩道":
-                write_file_path = "data/result/color/result.txt";
+                write_file_path = "../data/result/color/result.txt";
                 filechooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
                 filechooser.setDialogTitle("bgrのカラーコードのファイルのパスを選択してください");
                 selected = filechooser.showOpenDialog(this);
@@ -187,7 +187,7 @@ public class Main extends JFrame implements ActionListener{
                 selected = filechooser.showOpenDialog(this);
                 File jiko_file2 = filechooser.getSelectedFile();
                 int[] col_nums2 = {0,1,2};
-                write_file_path="data/result/searchFeature/result.txt";
+                write_file_path="../data/result/searchFeature/result.txt";
                 CoordController.nearbyAccident(jiko_file1.getPath(), jiko_file2.getPath(), write_file_path, 200, col_nums2, col_nums2);
                 label = new JLabel("下記ファイルに保存しました(´･ω･`)\n"+write_file_path);
                 break;
@@ -199,7 +199,7 @@ public class Main extends JFrame implements ActionListener{
                 filechooser.setDialogTitle("対照地物のデータを選択してください");
                 selected = filechooser.showOpenDialog(this);
                 File jinshixn_linear = filechooser.getSelectedFile();
-                write_file_path="data/result/searchFeature/result.txt";
+                write_file_path="../data/result/searchFeature/result.txt";
                 ColController.route2linear(nearby_jinshixn.getPath(), jinshixn_linear.getPath(), write_file_path);
                 label = new JLabel("下記ファイルに保存しました(´･ω･`)\n"+write_file_path);
                 break;

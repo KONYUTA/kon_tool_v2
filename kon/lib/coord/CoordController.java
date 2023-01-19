@@ -26,12 +26,12 @@ public class CoordController{
         int[]col_coord_2 = {col_nums2[0], col_nums2[1]};
         CoordDouble jiko1 = new CoordDouble(file1, col_coord_1);
         CoordDouble jiko2 = new CoordDouble(file2, col_coord_2);
-        jiko1.readData(",");
-        jiko2.readData(",");
+        jiko1.readData(" ");
+        jiko2.readData(" ");
         Col rosexn1 = new Col(file1, col_nums1[2]);
         Col rosexn2 = new Col(file2, col_nums2[2]);
-        rosexn1.readData(",");
-        rosexn2.readData(",");
+        rosexn1.readData(" ");
+        rosexn2.readData(" ");
         int[] result = search_with_rosexn(jiko1, jiko2, rosexn1, rosexn2, radius);
         try{
             FileWriter filewriter = new FileWriter(save_file_path);
