@@ -13,7 +13,7 @@ import java.io.BufferedWriter;
  */
 public class CoordController{
     /**
-     * ボタン「同一地点での事故検索」が発火した際に実行される。第一引数のファイル内の各事故の座標と路線をもとに、同じ路線の周辺一定範囲で発生した事故を第二引数のファイル内の事故から検索し、最初にヒットしたものをリストとして返す。
+     * ボタン「同一地点, 路線での事故検索」が発火した際に実行される。第一引数のファイル内の各事故の座標と路線をもとに、同じ路線の周辺一定範囲で発生した事故を第二引数のファイル内の事故から検索し、最初にヒットしたものをリストとして返す。
      * @param file1 各事故の座標と路線が記録されたファイルパス
      * @param file2 検索対照の座標と路線が記録されたファイルパス
      * @param save_file_path 保存するファイルのパス
@@ -70,6 +70,40 @@ public class CoordController{
         }catch(IOException e){System.out.println("ファイル書き込みに失敗しました。");}
     }
 
+    /**
+     * ボタン「同一地点の事故の除外」が発火した時に実行される
+     * 各事故現場地点周辺の事故の存在を調査し、ファイル出力する。
+     * @param jiko_file 事故データのファイルパス
+     * @param save_file_path 保存用のファイルのパス
+     * @param radius 調査する範囲の半径(単位はメートル)
+     * @param col_nums1 事故データの行番号の配列
+     */
+    public static void searchSamePoint(String jiko_file, String save_file_path, double radius, int[] col_nums1){
+        CoordDouble jiko = new CoordDouble(jiko_file, col_nums1);
+        jiko.readData(" ");
+        boolean[] result = new boolean[jiko.coords.size()];
+        for(boolean i:result){
+            i=false;
+        }
+        for(int i=0; i<result.length; i++){
+            double[] xy = jiko.coords.get(i);
+            for(int j=i+1; j<result.length; j++){
+                double[] xy_in = jiko.coords.get(j);
+                if(!result[j] && isInCircle(xy, xy_in, radius)){
+                    result[j] = true;
+                    break;
+                }
+            }
+        }
+        try{
+            FileWriter filewriter = new FileWriter(save_file_path);
+            PrintWriter printwriter = new PrintWriter(new BufferedWriter(filewriter));
+            for(boolean i:result){
+                printwriter.println(i?1:0);
+            }
+            printwriter.close();
+        }catch(IOException e){System.out.println("ファイル書き込みに失敗しました。");}
+    }
     /**
      * 事故発生地点周辺に指定の地物が存在するかどうかを調べる
      * @param jiko 事故地点の座標データ単位はメートル)

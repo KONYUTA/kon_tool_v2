@@ -54,6 +54,7 @@ public class Main extends JFrame implements ActionListener{
         //btns.add(new JButton("歩道"));
         btns.add(new JButton("同一地点での事故の検索"));
         btns.add(new JButton("近くの人身事故の道路線形"));
+        btns.add(new JButton("同一地点の事故の除外"));
         for(JButton btn:btns){
             btn.addActionListener(this);
             p.add(btn);
@@ -201,6 +202,16 @@ public class Main extends JFrame implements ActionListener{
                 File jinshixn_linear = filechooser.getSelectedFile();
                 write_file_path="../data/result/searchFeature/result.txt";
                 ColController.route2linear(nearby_jinshixn.getPath(), jinshixn_linear.getPath(), write_file_path);
+                label = new JLabel("下記ファイルに保存しました(´･ω･`)\n"+write_file_path);
+                break;
+            case "同一地点の事故の除外":
+                filechooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+                filechooser.setDialogTitle("事故座標データを選択してください。");
+                selected = filechooser.showOpenDialog(this);
+                File same_jiko_file = filechooser.getSelectedFile();
+                int[] col_nums3 = {4,5};
+                write_file_path="../data/result/searchFeature/result.txt";
+                CoordController.searchSamePoint(same_jiko_file.getPath(),write_file_path, 10, col_nums3);
                 label = new JLabel("下記ファイルに保存しました(´･ω･`)\n"+write_file_path);
                 break;
             case "マニュアル":
